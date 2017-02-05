@@ -12,14 +12,14 @@ import os
 class FTPClient:
 
     @property
-    def address(self)
+    def address(self):
         return self._address
 
     @property
-    def port(self)
+    def port(self):
         return self._port
 
-    def __init__(self, address, port)
+    def __init__(self, address, port):
         self._address = address
         self._port = port
 
