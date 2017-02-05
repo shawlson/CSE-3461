@@ -23,7 +23,7 @@ class FTPClient:
         self._address = address
         self._port = port
 
-    def transfer(file, chunk_size=512):
+    def transfer(self, file, chunk_size=512):
 
         # All future operations on the _socket object will fail
         # once we close it, so it can't be an instance property
