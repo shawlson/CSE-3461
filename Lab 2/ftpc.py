@@ -13,10 +13,10 @@ if len(sys.argv) != 4:
     sys.exit('Usage: python3 ftpc.py <remote host> <remote port> <file>')
 
 # Create FTP client
-client = ftp_client.FTPClient(sys.argv[0], int(sys.argv[1]))
+client = ftp_client.FTPClient(sys.argv[1], int(sys.argv[2]))
 
 # Open file to be copied
-file = open(sys.argv[2], 'rb')
+file = open(sys.argv[3], 'rb')
 
 # Transfer and close file
 client.transfer(file)
