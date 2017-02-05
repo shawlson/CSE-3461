@@ -9,7 +9,7 @@ import os
 import ftp_client
 
 # Check for correct number of arguments
-if (len(sys.argv) != 3):
+if len(sys.argv) != 4:
     sys.exit('Usage: python3 ftpc.py <remote host> <remote port> <file>')
 
 # Create FTP client
