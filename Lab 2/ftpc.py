@@ -21,4 +21,3 @@ file = open(sys.argv[2], 'rb')
 # Transfer and close file
 client.transfer(file)
 file.close()
-
