@@ -1,31 +1,24 @@
 # Dan Shawlson
 # CSE 3461, T/Th 12:45
-# Lab 1
+# Lab 2
 
-# Reads input file from command line, creates and opens output file
-# and directory, and initiates the copy from input to output
+# CLI interface for FTP client
 
 import sys
 import os
-import copier
+import ftp_client
 
 # Check for correct number of arguments
-if (len(sys.argv) != 2):
-    sys.exit('Usage: python3 copy.py <filename>')
+if (len(sys.argv) != 3):
+    sys.exit('Usage: python3 ftpc.py <remote host> <remote port> <file>')
+
+# Create FTP client
+client = FTPClient(sys.argv[0], int(sys.argv[1]))
 
 # Open file to be copied
-in_file = open(sys.argv[-1], 'rb')
+file = open(sys.argv[2], 'rb')
 
-# Create recv directory, if necessary
-os.makedirs('recv', exist_ok=True)
+# Transfer and close file
+client.transfer(file)
+file.close()
 
-# (Erase and) Create output file in new directory
-filename = os.path.basename(sys.argv[-1])
-out_file = open('recv/' + filename, 'wb')
-
-# Copy input file to output file
-copier.copy(in_file, out_file)
-
-# Close files
-in_file.close()
-out_file.close()
