@@ -16,9 +16,11 @@ print('Received connection')
 data = conn.recv(512)
 # First 4 bytes indicate file size
 file_size = int.from_bytes(data[:4], byteorder='big')
+print(file_size)
 # Next 20 bytes indicate file name. Convert them to string
 # and strip any trailing null characters
 file_name = data[4:24].decode('ascii').rstrip('\0')
+print(file_name)
 
 # Create file and begin writing data to it
 out_file = open(file_name, 'wb')
