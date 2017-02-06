@@ -11,7 +11,7 @@ _socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 _socket.bind((HOST, PORT))
 _socket.listen(1)
 conn, addr = _socket.accept()
-print('Received connection from ' + addr)
+print('Received connection')
 
 data = conn.recv(512)
 # First 4 bytes indicate file size
