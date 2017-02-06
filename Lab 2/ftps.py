@@ -15,7 +15,7 @@ print('Received connection from ' + addr)
 
 data = conn.recv(512)
 # First 4 bytes indicate file size
-file_size = int.from_bytes(data[:4], byteorder='little')
+file_size = int.from_bytes(data[:4], byteorder='big')
 # Next 20 bytes indicate file name. Convert them to string
 # and strip any trailing null characters
 file_name = data[4:24].decode('ascii').rstrip('\0')

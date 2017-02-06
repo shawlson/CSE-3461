@@ -23,7 +23,7 @@ class FTPClient:
         self._address = address
         self._port = port
 
-    def transfer(self, file, chunk_size=512):
+    def transfer(self, in_file, chunk_size=512):
 
         # All future operations on the _socket object will fail
         # once we close it, so it can't be an instance property
@@ -36,23 +36,23 @@ class FTPClient:
         #   First 4 bytes - size of file in bytes, big endian
         #   Next 20 bytes - name of file, assumed <= 20
         chunk = bytearray()
-        file_size = os.path.getsize(file)
+        file_size = os.path.getsize(in_file)
         chunk += bytearray(file_size.to_bytes(4, 'big'))
 
         padding = bytearray(20)
-        chunk += bytearray(file.name, 'ascii') + padding[len(file.name):]
+        chunk += bytearray(in_file.name, 'ascii') + padding[len(file.name):]
 
         if len(chunk != 24):
             print('ERROR')
             print(chunk)
 
         # Start reading from file and sending chunks to server
-        chunk += file.read(chunk_size - 24)  # 24 bytes for protocol
+        chunk += in_file.read(chunk_size - 24)  # 24 bytes for protocol
         _socket.send(chunk)
 
         # Read and send until end of file
         while True:
-            chunk = bytearray(file.read(chunk_size))
+            chunk = bytearray(in_file.read(chunk_size))
             if len(chunk) == 0:
                 break
             else:
