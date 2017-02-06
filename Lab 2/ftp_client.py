@@ -59,6 +59,6 @@ class FTPClient:
                 _socket.send(chunk)
 
         # Finished sending, shutdown and close socket
-        _socket.shutdown()
+        #_socket.shutdown()
         _socket.close()
         
