@@ -42,7 +42,7 @@ class FTPClient:
         padding = bytearray(20)
         chunk += bytearray(in_file.name, 'ascii') + padding[len(in_file.name):]
 
-        if len(chunk != 24):
+        if len(chunk) != 24:
             print('ERROR')
             print(chunk)
 
