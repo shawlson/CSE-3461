@@ -21,8 +21,8 @@ file_size = int.from_bytes(data[:4], byteorder='big')
 file_name = data[4:24].decode('ascii').rstrip('\0')
 
 # Create file and begin writing data to it
-file = open(file_name, 'wb')
-file.write(data[24:])
+out_file = open(file_name, 'wb')
+out_file.write(data[24:])
 
 # Receive the rest of the data in chunks and write them to file
 while True:
@@ -30,8 +30,8 @@ while True:
     if not data:
         break
     else:
-        file.write(data)
+        out_file.write(data)
 
 # Close connection and file
 conn.close()
-file.close()
+out_file.close()
