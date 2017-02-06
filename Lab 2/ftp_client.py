@@ -36,7 +36,7 @@ class FTPClient:
         #   First 4 bytes - size of file in bytes, big endian
         #   Next 20 bytes - name of file, assumed <= 20
         chunk = bytearray()
-        file_size = os.path.getsize(in_file)
+        file_size = os.path.getsize(in_file.name)
         chunk += bytearray(file_size.to_bytes(4, 'big'))
 
         padding = bytearray(20)
