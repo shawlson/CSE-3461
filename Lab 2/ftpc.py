@@ -19,5 +19,5 @@ client = ftp_client.FTPClient(sys.argv[1], int(sys.argv[2]))
 out_file = open(sys.argv[3], 'rb')
 
 # Transfer and close file
-client.transfer(file)
+client.transfer(out_file)
 out_file.close()
