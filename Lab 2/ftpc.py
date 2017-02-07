@@ -16,8 +16,8 @@ if len(sys.argv) != 4:
 client = ftp_client.FTPClient(sys.argv[1], int(sys.argv[2]))
 
 # Open file to be copied
-file = open(sys.argv[3], 'rb')
+out_file = open(sys.argv[3], 'rb')
 
 # Transfer and close file
 client.transfer(file)
-file.close()
+out_file.close()

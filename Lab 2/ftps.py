@@ -20,21 +20,21 @@ _socket.listen(1)
 conn, addr = _socket.accept()
 print('Received connection')
 
-data = conn.recv(512)
 # First 4 bytes indicate file size
-file_size = int.from_bytes(data[:4], byteorder='big')
+data = conn.recv(4)
+file_size = int.from_bytes(data, byteorder='big')
+
 # Next 20 bytes indicate file name. Convert them to string
 # and strip any trailing null characters
-file_name = data[4:24].decode('ascii').rstrip('\0')
-
+data = conn.recv(20)
+file_name = data.decode('ascii').rstrip('\0')
 
 # Create file, and directory if necessary, and begin writing data to it
 os.makedirs('recv', exist_ok=True)
 out_file = open('recv/' + file_name, 'wb')
-out_file.write(data[24:])
-bytes_received = len(data[24:])
 
-# Receive the rest of the data in chunks and write them to file
+# Receive the file in chunks and write them to file
+bytes_received = 0
 while True:
     data = conn.recv(512)
     if not data:

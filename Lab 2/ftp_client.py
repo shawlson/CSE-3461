@@ -32,24 +32,15 @@ class FTPClient:
         # Connect to remote socket
         _socket.connect((self._address, self._port))
 
-        # Set up protocol header
-        #   First 4 bytes - size of file in bytes, big endian
-        #   Next 20 bytes - name of file, assumed <= 20
-        chunk = bytearray()
+        # Start sending protocol information
+        # First 4 bytes - size of file in bytes, big endian
         file_size = os.path.getsize(in_file.name)
-        chunk += bytearray(file_size.to_bytes(4, 'big'))
+        _socket.send(file_size.to_bytes(4, byteorder='big'))
 
+        # Next 20 bytes - name of file, assumed <= 20
         padding = bytearray(20)
         base_file_name = os.path.basename(in_file.name)
-        chunk += bytearray(base_file_name, 'ascii') + padding[len(base_file_name):]
-
-        if len(chunk) != 24:
-            print('ERROR')
-            print(chunk)
-
-        # Start reading from file and sending chunks to server
-        chunk += in_file.read(chunk_size - 24)  # 24 bytes for protocol
-        _socket.send(chunk)
+        _socket.send(bytearray(base_file_name, 'ascii') + padding[len(base_file_name):])
 
         # Read and send until end of file
         while True:
