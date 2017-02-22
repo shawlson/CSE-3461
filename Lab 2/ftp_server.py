@@ -24,6 +24,7 @@ class FTPServer:
                 conn, address = self._socket.accept()
                 print('Received connection from {}'.format(address))
                 handler(conn)
+                conn.close
         except KeyboardInterrupt:
             self._socket.close()
             sys.exit()

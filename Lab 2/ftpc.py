@@ -7,6 +7,7 @@
 import sys
 import os
 import ftp_client
+import protocol
 
 # Check for correct number of arguments
 if len(sys.argv) != 4:
@@ -19,5 +20,5 @@ client = ftp_client.FTPClient(sys.argv[1], int(sys.argv[2]))
 out_file = open(sys.argv[3], 'rb')
 
 # Transfer and close file
-client.transfer(out_file)
+client.transfer(out_file, protocol.CLIENT)
 out_file.close()
