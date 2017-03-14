@@ -9,6 +9,7 @@ import sys
 import os
 import time
 
+# Maximum amount of file payload to be sent at a time
 chunk_size = 1000
 
 # Define client side outbound communication handling
@@ -25,12 +26,14 @@ def CLIENT(sock, out_address, out_port, out_file, header_address, header_port):
     name_flag = int.to_bytes(2, 1, byteorder='big')
     data_flag = int.to_bytes(3, 1, byteorder='big')
 
+    # Sleep for a short amount of time after sending each segment
+    sleep_time = 0.01
 
     # First segment - 4 bytes for size of file
     file_size = os.path.getsize(out_file.name).to_bytes(4, byteorder='big')
     seg = header + size_flag + file_size
     sock.sendto(seg, (out_address, out_port))
-    time.sleep(0.1)
+    time.sleep(sleep_time)
 
     # Second segment - 20 bytes for file name
     padding = bytearray(20)
@@ -38,7 +41,7 @@ def CLIENT(sock, out_address, out_port, out_file, header_address, header_port):
     file_name = bytearray(base_file_name, 'ascii') + padding[len(base_file_name):]
     seg = header + name_flag + file_name
     sock.sendto(seg, (out_address, out_port))
-    time.sleep(0.1)
+    time.sleep(sleep_time)
 
     # Rest of segments - send file data
     while True:
@@ -48,7 +51,7 @@ def CLIENT(sock, out_address, out_port, out_file, header_address, header_port):
         else:
             seg = header + data_flag + chunk
             sock.sendto(seg, (out_address, out_port))
-            time.sleep(0.1)
+            time.sleep(sleep_time)
 
     
 # Define server side inbound communication handling
