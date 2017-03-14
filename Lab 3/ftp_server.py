@@ -17,8 +17,8 @@ class FTPServer:
         self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self._sock.bind((HOST, PORT))
 
-    # Here we only listen for a connection. The handler function
-    # passed in handles any busines logic
+    # Here we simply pass the socket to its protocol handler,
+    # then close it afterwards.
     def start(self):
         self._protocol(self._sock)
         self._sock.close()
