@@ -68,7 +68,6 @@ def SERVER(sock):
     out_file = None
     bytes_recvd = 0
     max_seg_size = 7 + chunk_size # Header + biggest possible chunk of data
-    var_chunk_size = chunk_size
     progress = '\rReceived {}B/{}B of file {}'
 
     while True:
@@ -89,14 +88,14 @@ def SERVER(sock):
 
         # Segment with size of file received
         if data[FLAG_POS] == size_flag:
-            size_info = data[7:12]
+            size_info = data[7:]
             file_size = int.from_bytes(size_info, byteorder='big')
             know_size = True
             print('Expecting file of {} bytes'.format(file_size))
 
         # Segment with file name received
         elif data[FLAG_POS] == name_flag:
-            name_info = data[7:28]
+            name_info = data[7:]
             file_name = name_info.decode('ascii').rstrip('\0')
             know_name = True
             # Create file, and directory if necessary
@@ -107,10 +106,8 @@ def SERVER(sock):
         # Segment with file data received
         elif data[FLAG_POS] == data_flag:
             if know_name and know_size:
-                if file_size - bytes_recvd < chunk_size:
-                    var_chunk_size = file_size - bytes_recvd
-                chunk_bytes = data[7:7 + var_chunk_size + 1]
-                bytes_recvd += var_chunk_size
+                chunk_bytes = data[7:]
+                bytes_recvd += len(data[7:])
                 sys.stdout.write(progress.format(bytes_recvd, file_size, file_name))
                 out_file.write(chunk_bytes)
             else:
