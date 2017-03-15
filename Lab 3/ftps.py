@@ -4,8 +4,6 @@
 
 # CLI interface for FTP server
 
-# python3 ftps.py <local-port-on-gamma>
-
 import sys
 import os
 import ftp_server

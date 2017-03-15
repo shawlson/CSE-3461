@@ -62,6 +62,7 @@ def SERVER(sock):
     size_flag = 1
     name_flag = 2
     data_flag = 3
+    PAYLOAD_POS = FLAG_POS + 1
 
     # Initial values
     know_size = False
@@ -91,14 +92,14 @@ def SERVER(sock):
 
         # Segment with size of file received
         if data[FLAG_POS] == size_flag:
-            size_info = data[7:]
+            size_info = data[PAYLOAD_POS:]
             file_size = int.from_bytes(size_info, byteorder='big')
             know_size = True
             print('Expecting file of {} bytes'.format(file_size))
 
         # Segment with file name received
         elif data[FLAG_POS] == name_flag:
-            name_info = data[7:]
+            name_info = data[PAYLOAD_POS:]
             file_name = name_info.decode('ascii').rstrip('\0')
             know_name = True
             # Create file, and directory if necessary
@@ -109,8 +110,8 @@ def SERVER(sock):
         # Segment with file data received
         elif data[FLAG_POS] == data_flag:
             if know_name and know_size:
-                chunk_bytes = data[7:]
-                bytes_recvd += len(data[7:])
+                chunk_bytes = data[PAYLOAD_POS:]
+                bytes_recvd += len(data[PAYLOAD_POS:])
                 sys.stdout.write(progress.format(bytes_recvd, file_size, file_name))
                 out_file.write(chunk_bytes)
             else:
