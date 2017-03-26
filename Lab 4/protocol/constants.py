@@ -1,3 +1,9 @@
+# Dan Shawlson
+# CSE 3461, T/Th 12:45
+# Lab 4
+
+# Constants used in the protocol
+
 FLAG_POS = 6
 SEQ_POS = 7
 PAYLOAD_POS = 8

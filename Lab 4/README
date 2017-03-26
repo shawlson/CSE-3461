@@ -1,0 +1,18 @@
+Dan Shawlson
+CSE 3461, T/Th 12:45
+Lab 4
+
+Start the FTP server on gamma.cse.ohio-state.edu with the command:
+    python3 ftps.py <local-port-on-gamma> <troll-port-on-gamma>
+Note that the server will receive only one file before it exits.
+
+Start the troll client process on beta.cse.ohio-state.edu with the command:
+    troll -C <IP-address-of-beta> -S <IP-address-of-gamma> -a <client-port-on-beta> -b <server-port-on-gamma> <troll-port-on-beta> -t -x <packet-drop-%>
+Use 127.0.0.1 for <IP-address-of-beta>. The <client-port-on-beta> is hardcoded to be 5195.
+
+Start the troll server process on gamma.cse.ohio-state.edu with the command:
+    troll -C <IP-address-of-gamma> -S <IP-address-of-beta> -a <server-port-on-gamma> -b <client-port-on-beta> <troll-port-on-gamma> -t -x <packet-drop-%>
+Use 127.0.0.1 for <IP-address-of-gamma>. The <client-port-on-beta> is hardcoded to be 5195.
+
+Initiate a transfer with the FTP client on beta.cse.ohio-state.edu with the command:
+    python3 ftpc.py <IP-address-of-gamma> <remote-port-on-gamma> <troll–port-on-beta> <local-file-to-transfer>
