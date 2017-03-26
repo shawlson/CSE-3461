@@ -5,9 +5,8 @@
 # CLI interface for FTP client
 
 import sys
-import os
 import ftp_client
-import client_protocol
+import protocol.client
 
 # Check usage
 if len(sys.argv) != 5:
@@ -16,10 +15,10 @@ if len(sys.argv) != 5:
 # Load initial values into client protocol
 dest_addr = ('', int(sys.argv[3]))
 header_addr = (sys.argv[1], int(sys.argv[2]))
-protocol = client_protocol.init(dest_addr, header_addr)
+protocol = protocol.client.init(dest_addr, header_addr)
 
 # Creat client object. Local port is arbitrary
-client = ftp_client.FTPClient(local_port=5195, protocol)
+client = ftp_client.FTPClient(5195, protocol)
 
 # Open file to be copied
 out_file = open(sys.argv[4], 'rb')

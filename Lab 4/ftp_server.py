@@ -7,8 +7,6 @@
 # socket
 
 import socket
-import sys
-import os
 
 class FTPServer:
 

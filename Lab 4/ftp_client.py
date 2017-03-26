@@ -6,8 +6,6 @@
 # passes socket to protocol handler, then closes socket
 
 import socket
-import sys
-import os
 
 class FTPClient:
 

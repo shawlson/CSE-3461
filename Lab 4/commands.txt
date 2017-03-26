@@ -1,0 +1,21 @@
+### Troll gamma = 6969
+### Troll beta = 6970
+### FTP server port gamma = 54321
+### FTP client port beta = 5195
+
+
+### Start the server on gamma
+python3 ftps.py <local-port-on-gamma> <troll-port-on-gamma>
+python3 ftps.py 54321 6969
+
+### Start troll on beta
+troll -C <IP-address-of-beta> -S <IP-address-of-gamma> -a <client-port-on-beta> -b <server-port-on-gamma> <troll-port-on-beta> -t -x <packet-drop-%>
+troll -C 127.0.0.1 -S 164.107.113.22 -a 5195 -b 54321 6970 -t -x 0
+
+### Start troll on gamma
+troll -C <IP-address-of-gamma> -S <IP-address-of-beta> -a <server-port-on-gamma> -b <client-port-on-beta> <troll-port-on-gamma> -t -x <packet-drop-%>
+troll -C 127.0.0.1 -S 164.107.113.18 -a 54321 -b 5195 6969 -t -x 0
+
+### Start client on beta
+python3 ftpc.py <remote-IP-gamma> <remote-port-on-gamma> <troll-port-on-beta> <local-file-to-transfer>
+python3 ftpc.py 164.107.113.22 54321 6970
