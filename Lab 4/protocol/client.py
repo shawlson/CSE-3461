@@ -7,16 +7,11 @@
 import os
 import select
 import time
-import sys
-import socket
 from protocol.constants import *
 
 def init(dest_addr, header_addr):
 
     def client(sock, out_file):
-        
-        # If client doesn't hear from server for 3 seconds, exit
-        sock.settimeout(3)
 
         # Each UDP segment sent contains 4 bytes for remote IP address,
         # 2 bytes for remote port, 1 byte for appropriate flag, and
@@ -69,25 +64,22 @@ def init(dest_addr, header_addr):
     return client
 
 def send_til_ackd(sock, addr, seg):
-    
-    try:
-        packet_id = seg[SEQ_POS]
-        ackd = False
-        timeout = 0.005
-    
-        sock.sendto(seg, addr)
-        time.sleep(SLEEP_TIME)
-        while not ackd:
-            read, write, err = select.select([sock], [], [], timeout)
-            if len(read) > 0:
-                ack = int.from_bytes(read[0].recv(1), byteorder='big')
-                if ack == packet_id:
-                    ackd = True
-                else:
-                    sock.sendto(seg, addr)
-                    time.sleep(SLEEP_TIME)
+  
+    packet_id = seg[SEQ_POS]
+    ackd = False
+    timeout = 0.005
+
+    sock.sendto(seg, addr)
+    time.sleep(SLEEP_TIME)
+    while not ackd:
+        read, write, err = select.select([sock], [], [], timeout)
+        if len(read) > 0:
+            ack = int.from_bytes(read[0].recv(1), byteorder='big')
+            if ack == packet_id:
+                ackd = True
             else:
                 sock.sendto(seg, addr)
                 time.sleep(SLEEP_TIME)
-    except socket.timeout:
-        sys.exit('Timeout')
+        else:
+            sock.sendto(seg, addr)
+            time.sleep(SLEEP_TIME)
