@@ -16,3 +16,8 @@ Use 127.0.0.1 for <IP-address-of-gamma>. The <client-port-on-beta> is hardcoded 
 
 Initiate a transfer with the FTP client on beta.cse.ohio-state.edu with the command:
     python3 ftpc.py <IP-address-of-gamma> <remote-port-on-gamma> <troll–port-on-beta> <local-file-to-transfer>
+
+
+Note that the client will not terminate if the server's last ACK is dropped,
+since the server terminates directly after receiving the end of the file
+and sending the final ACK. Solving this is beyond the scope of this project.
